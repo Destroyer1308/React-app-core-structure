@@ -68,3 +68,8 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+
+Dependency -> things which we need to work in the production
+Dev Dependency -> things that we need during development
+Peer Dependency -> when we want to publish our own library it contains version of react, react-dom , react-router-dom

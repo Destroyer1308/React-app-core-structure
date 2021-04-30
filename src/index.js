@@ -1,17 +1,34 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { BrowserRouter } from 'react-router-dom';
+import { hydrate } from 'react-dom';
+import { loadableReady } from '@loadable/component';
+import { StoreProvider } from 'easy-peasy';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+import { PersistGate } from 'redux-persist/integration/react';
+import { configureStore, persistor  } from './store/configureStore';
+import App from './containers/App';
+import Init from './components/Init';
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+const state = window.__PRELOADED_STATE__;
+delete window.__PRELOADED_STATE__;
+
+const store = configureStore(state);
+
+const render = Component => {
+  hydrate(
+    <StoreProvider store={store}>
+      <PersistGate loading={null} persistor={persistor}>
+          <BrowserRouter> 
+          <Init />
+          <Component />
+        </BrowserRouter>
+        </PersistGate>
+      </StoreProvider>,
+    document.getElementById('root'),
+  );
+};
+
+loadableReady().then(() => {
+  render(App);
+});
+
